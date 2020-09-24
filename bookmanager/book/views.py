@@ -8,6 +8,14 @@ def index(request):
 
     return HttpResponse('ok')
 
+def shop(request,city_id,shop_id):
+    Query_dict = request.GET
+    print(Query_dict)
+    order = Query_dict.get('order')
+    print(city_id,shop_id)
+    return HttpResponse(f'欢迎来到胡灿的小店：city_id:{city_id},shop_id:{shop_id}')
+
+
 # book1 = BookInfo.objects.create(
 #     name='java入门',
 #     pub_date= '2020-1-3'
@@ -91,15 +99,15 @@ def index(request):
 # 例：查询图书总数。
 # BookInfo.objects.all().order_by('readcount')
 
-book = BookInfo.objects.get(id=1)
-book.peopleinfo_set.all()
-
-person = PeopleInfo.objects.get(name='郭靖')
-person.book
-
-person = PeopleInfo.objects.get(id=1)
-person.book_id
-
-BookInfo.objects.filter(peopleinfo__description__contains='八')
-PeopleInfo.objects.filter(book__name='天龙八部')
-BookInfo.objects.filter(readcount__gt=30).order_by('pub_date')
+# book = BookInfo.objects.get(id=1)
+# book.peopleinfo_set.all()
+#
+# person = PeopleInfo.objects.get(name='郭靖')
+# person.book
+#
+# person = PeopleInfo.objects.get(id=1)
+# person.book_id
+#
+# BookInfo.objects.filter(peopleinfo__description__contains='八')
+# PeopleInfo.objects.filter(book__name='天龙八部')
+# BookInfo.objects.filter(readcount__gt=30).order_by('pub_date')
