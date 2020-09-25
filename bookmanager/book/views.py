@@ -1,19 +1,155 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from book.models import BookInfo,PeopleInfo
 from django.db.models import F,Q,Sum
 
+
 # Create your views here.
+# path('index/',index),
 def index(request):
-
     return HttpResponse('ok')
+#     path('<int:city_id>/<phone:Mobile>',shop),
+def shop(request,city_id,Mobile):
+    return JsonResponse({'city_id':city_id,'Mobile':Mobile})
 
-def shop(request,city_id,shop_id):
-    Query_dict = request.GET
-    print(Query_dict)
-    order = Query_dict.get('order')
-    print(city_id,shop_id)
-    return HttpResponse(f'欢迎来到胡灿的小店：city_id:{city_id},shop_id:{shop_id}')
+#     path('register/',register),
+def register(request):
+    account =request.POST['account']
+    pwd = request.POST.get('password')
+    return JsonResponse({'账户':account,'密码':pwd})
+    pass
+
+#     path('json/',json),
+
+def json(request):
+    json_str=request.body.decode()
+    import json
+    dict1 = json.loads(json_str)
+    return JsonResponse(dict1)
+
+
+#     path('method/',method),
+def method(request):
+    return HttpResponse(request.method)
+#     path('response/',response),
+def response(request):
+    response = HttpResponse({'a':3,'b':5})
+    return response
+    pass
+#     path('set_cookie/',set_cookie),
+def set_cookie(request):
+    name=request.GET.get('name')
+    # age =request.GET['age']
+    response = HttpResponse('ok')
+    response.set_cookie('name',name)
+    # response.set_cookie('age',age)
+    return response
+
+#     path('get_cookie/',get_cookie),
+def get_cookie(request):
+    a = request.COOKIES
+    return HttpResponse(a['name'])
+
+#     path('set_session/',set_session),
+
+def set_session(request):
+    name = request.GET.get('username')
+    request.session['name']=name
+    return HttpResponse('set_session')
+    pass
+#     path('get_session/',get_session),
+
+def get_session(request):
+    username=request.session.get('username')
+    return HttpResponse(username)
+#     path('login/',login),
+def login(request):
+    pass
+#     path('LV/',LoginView.as_view())
+from django.views import View
+class LoginView(View):
+    pass
+
+
+
+
+
+# def index(request):
+#
+#     return HttpResponse('ok')
+#
+# def shop(request,city_id,Mobile):
+#     Query_dict = request.GET
+#     print(Query_dict)
+#     order = Query_dict.get('order')
+#     print(city_id,Mobile)
+#     return HttpResponse(f'欢迎来到胡灿的小店：city_id:{city_id},shop_id:{Mobile}')
+#
+# def register(request):
+#     Query_dict=request.POST
+#     print(Query_dict)
+#     return HttpResponse(Query_dict)
+#
+#
+# def json(request):
+#     data = request.body
+#     json_str= data.decode()
+#     import json
+#     data_dict = json.loads(data)
+#     print(data_dict)
+#     return HttpResponse('{},{}'.format(data_dict['name'],data_dict['age']))
+#
+#
+# def method(request):
+#     data= request.method
+#     return HttpResponse(data)
+#
+#
+# from django.http import HttpResponse,JsonResponse
+# def response(request):
+#     response = HttpResponse('res',status=200)
+#     response['name']= 'itcast'
+#     return response
+#
+#
+# def set_cookie(request):
+#     name=request.GET.get('username')
+#     response = HttpResponse('ok')
+#     response.set_cookie('name',name)
+#     return response
+#
+# def get_cookie(request):
+#     cookie1 = request.COOKIES.get('name')
+#     print(cookie1)
+#     return HttpResponse(cookie1)
+#
+# def set_session(request):
+#     name = request.GET.get('username')
+#     user_id = 1
+#     request.session['user_id'] = user_id
+#     request.session['username'] = name
+#     request.session.set_expiry(3600)
+#     return HttpResponse('set_session')
+#
+# def get_session(request):
+#     user_id = request.session.get('user_id')
+#     username = request.session.get('username')
+#     content = '{},{}'.format(user_id,username)
+#     return HttpResponse(content)
+#
+# def login(request):
+#     if request.method == 'GET':
+#         return HttpResponse('get')
+#     else:
+#         return HttpResponse('post')
+#
+# from django.views import View
+#
+# class LoginView(View):
+#     def get(self,request):
+#         return HttpResponse('get get')
+#     def post(self,request):
+#         return HttpResponse('post post')
 
 
 # book1 = BookInfo.objects.create(
