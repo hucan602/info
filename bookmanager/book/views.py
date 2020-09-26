@@ -7,25 +7,25 @@ from django.db.models import F,Q,Sum
 # Create your views here.
 # path('index/',index),
 def index(request):
-    return HttpResponse('ok')
+    return HttpResponse('index')
 #     path('<int:city_id>/<phone:Mobile>',shop),
 def shop(request,city_id,Mobile):
     return JsonResponse({'city_id':city_id,'Mobile':Mobile})
 
 #     path('register/',register),
 def register(request):
-    account =request.POST['account']
+    username = request.POST.get('username')
     pwd = request.POST.get('password')
-    return JsonResponse({'账户':account,'密码':pwd})
+    return HttpResponse('账号:{},密码:{}'.format(username,pwd))
     pass
 
 #     path('json/',json),
 
 def json(request):
-    json_str=request.body.decode()
+    json_str = request.body.decode()
     import json
-    dict1 = json.loads(json_str)
-    return JsonResponse(dict1)
+    data_dict = json.loads(json_str)
+    return JsonResponse(data_dict)
 
 
 #     path('method/',method),
@@ -38,37 +38,52 @@ def response(request):
     pass
 #     path('set_cookie/',set_cookie),
 def set_cookie(request):
-    name=request.GET.get('name')
-    # age =request.GET['age']
-    response = HttpResponse('ok')
-    response.set_cookie('name',name)
-    # response.set_cookie('age',age)
+    username = request.GET['username']
+    response = HttpResponse(username)
+    response.set_cookie('username',username)
     return response
 
 #     path('get_cookie/',get_cookie),
 def get_cookie(request):
     a = request.COOKIES
-    return HttpResponse(a['name'])
+    print(a)
+    return HttpResponse(a['username'])
 
 #     path('set_session/',set_session),
-
 def set_session(request):
-    name = request.GET.get('username')
-    request.session['name']=name
+    user_id = request.GET.get('user_id')
+    username = request.GET.get('username')
+    request.session['user_id'] = user_id
+    request.session['username'] = username
+    request.session.flush()
     return HttpResponse('set_session')
+
+def get_session(request):
+    user_id = request.session.get('user_id')
+    user_name = request.session.get('username')
+    content = 'id:{},账户:{}'.format(user_id,user_name)
+    return HttpResponse(content)
+
     pass
 #     path('get_session/',get_session),
 
-def get_session(request):
-    username=request.session.get('username')
-    return HttpResponse(username)
+
 #     path('login/',login),
 def login(request):
-    pass
+    if request.method == 'GET':
+        return HttpResponse('get')
+    else:
+        return HttpResponse('post')
+
+
 #     path('LV/',LoginView.as_view())
 from django.views import View
 class LoginView(View):
-    pass
+    def get(self,request):
+        return HttpResponse('get')
+    def pos(self,request):
+        return HttpResponse('post')
+
 
 
 
